@@ -26,20 +26,17 @@ body {
 
 button, input { font: inherit; }
 
-.app {
-  display: grid;
-  grid-template-columns: minmax(0, 520px) 320px;
-  width: 100%;
-  max-width: 840px;
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: 0 30px 60px -20px rgba(43, 29, 46, 0.35);
-}
+
+[hidden] { display: none !important; }
 
 /* ---------- Calendar ---------- */
 .calendar {
+  width: 100%;
+  max-width: 520px;
   background: var(--card);
   padding: 28px;
+  border-radius: var(--radius);
+  box-shadow: 0 30px 60px -20px rgba(43, 29, 46, 0.35);
 }
 
 .header {
@@ -126,16 +123,33 @@ button, input { font: inherit; }
 }
 .day.selected .dots i { box-shadow: 0 0 0 1.5px #fff; }
 
-/* ---------- Side panel ---------- */
-.panel {
+/* ---------- Program dialog ---------- */
+dialog {
+  width: min(380px, calc(100vw - 32px));
+  padding: 24px;
+  border: 0;
+  border-radius: var(--radius);
   background: var(--plum);
   color: #fff;
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  min-height: 0;
+  box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.5);
 }
+dialog::backdrop { background: rgba(43, 29, 46, 0.55); }
+dialog[open] { display: flex; flex-direction: column; gap: 18px; }
+
+.dialog-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.close {
+  border: 0;
+  width: 32px; height: 32px;
+  border-radius: 10px;
+  background: var(--plum-soft);
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.close:hover { background: rgba(255, 255, 255, 0.18); }
+
+#list-view { display: flex; flex-direction: column; gap: 16px; }
 
 .weekday { margin: 0 0 2px; font-size: 13px; color: #c9b9cd; }
 #selected-date { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
@@ -177,14 +191,10 @@ button, input { font: inherit; }
 .empty { margin: 0; font-size: 14px; color: #c9b9cd; }
 
 .form {
-  margin-top: auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  gap: 14px;
 }
-.form h3 { margin: 0; font-size: 15px; font-weight: 700; }
 
 .field { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #c9b9cd; }
 .field input {
@@ -228,9 +238,9 @@ button, input { font: inherit; }
 .field input:focus-visible { outline-color: #fff; }
 
 /* ---------- Mobile ---------- */
-@media (max-width: 820px) {
-  .app { grid-template-columns: 1fr; max-width: 520px; }
-  .calendar, .panel { padding: 20px; }
+@media (max-width: 520px) {
+  body { padding: 12px; }
+  .calendar { padding: 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

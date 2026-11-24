@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const monthYear = document.getElementById('month-year');
   const daysEl = document.getElementById('days');
   const listEl = document.getElementById('program-list');
+  const dialog = document.getElementById('dialog');
+  const listView = document.getElementById('list-view');
   const form = document.getElementById('program-form');
   const titleInput = document.getElementById('title');
   const timeInput = document.getElementById('time');
@@ -97,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ---------- side panel ---------- */
+  /* ---------- program dialog ---------- */
   function renderPanel() {
     const date = fromKey(selected);
     document.getElementById('selected-weekday').textContent = WEEKDAYS[date.getDay()];
@@ -110,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!items.length) {
       const empty = document.createElement('li');
       empty.className = 'empty';
-      empty.textContent = 'No programs on this day. Add one below.';
+      empty.textContent = 'No programs on this day.';
       listEl.appendChild(empty);
       return;
     }
@@ -137,7 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
       del.addEventListener('click', () => {
         programs = programs.filter(x => x.id !== p.id);
         save();
-        render();
+        renderCalendar();
+        renderPanel();
       });
 
       li.append(bar, text, del);
@@ -145,9 +148,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function openDialog() {
+    renderPanel();
+    // No programs yet: go straight to the new program form
+    showForm(!programsOn(selected).length);
+    if (!dialog.open) dialog.showModal();
+    if (!form.hidden) titleInput.focus();
+  }
+
+  function showForm(show) {
+    form.hidden = !show;
+    listView.hidden = show;
+  }
+
   function render() {
     renderCalendar();
-    renderPanel();
   }
 
   /* ---------- events ---------- */
@@ -157,7 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
     selected = btn.dataset.key;
     const d = fromKey(selected);
     viewDate = new Date(d.getFullYear(), d.getMonth(), 1);
-    render();
+    renderCalendar();
+    openDialog();
   });
 
   document.getElementById('prev').addEventListener('click', () => {
@@ -190,8 +206,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     save();
     form.reset();
-    render();
+    dialog.close();
+  });
+
+  document.getElementById('new-btn').addEventListener('click', () => {
+    showForm(true);
     titleInput.focus();
+  });
+
+  document.getElementById('close').addEventListener('click', () => dialog.close());
+
+  // Click on the dark backdrop closes the dialog
+  dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+
+  // Back to the calendar only: refresh dots and reset the form
+  dialog.addEventListener('close', () => {
+    form.reset();
+    renderCalendar();
   });
 
   render();
