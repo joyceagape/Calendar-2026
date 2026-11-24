@@ -1,29 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css" 
-      integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg==" 
-      crossorigin="anonymous" referrerpolicy="no-referrer" />  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calendar 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="calendar">
-    <div class="header">
-        <div id="prev" class="btn"><i class="fa-solid fa-arrow-left"></i></div>
-        <div id="month-year"></div>
-        <div id="next" class="btn"><i class="fa-solid fa-arrow-right"></i></div>
-</div>
-    <div class="weekdays">
-        <div>Sun</div>
-        <div>Mon</div>
-        <div>Tue</div>
-        <div>Wed</div>
-        <div>Thu</div>
-        <div>Fri</div>
-        <div>Sat</div>
-    </div>
-    <div class="days" id="days"></div>
-</div>
-   <script src="script.js"></script> 
+  <main class="app">
+
+    <section class="calendar" aria-label="Calendar">
+      <header class="header">
+        <h1 id="month-year"></h1>
+        <div class="nav">
+          <button id="today-btn" class="chip" type="button">Today</button>
+          <button id="prev" class="icon-btn" type="button" aria-label="Previous month">&#8249;</button>
+          <button id="next" class="icon-btn" type="button" aria-label="Next month">&#8250;</button>
+        </div>
+      </header>
+
+      <div class="weekdays" aria-hidden="true">
+        <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+      </div>
+      <div class="days" id="days"></div>
+    </section>
+
+    <aside class="panel" aria-label="Programs for the selected day">
+      <div class="panel-head">
+        <p id="selected-weekday" class="weekday"></p>
+        <h2 id="selected-date"></h2>
+      </div>
+
+      <ul id="program-list" class="program-list"></ul>
+
+      <form id="program-form" class="form" autocomplete="off">
+        <h3>New program</h3>
+        <label class="field">
+          <span>Title</span>
+          <input id="title" type="text" maxlength="60" placeholder="Team meeting" required>
+        </label>
+        <label class="field">
+          <span>Time</span>
+          <input id="time" type="time">
+        </label>
+        <fieldset class="colors">
+          <legend>Color</legend>
+          <label><input type="radio" name="color" value="#ff6b81" checked><span style="--c:#ff6b81"></span></label>
+          <label><input type="radio" name="color" value="#ffb347"><span style="--c:#ffb347"></span></label>
+          <label><input type="radio" name="color" value="#3ecfb2"><span style="--c:#3ecfb2"></span></label>
+          <label><input type="radio" name="color" value="#8b7bff"><span style="--c:#8b7bff"></span></label>
+        </fieldset>
+        <button class="primary" type="submit">Add program</button>
+      </form>
+    </aside>
+
+  </main>
+  <script src="script.js"></script>
 </body>
 </html>
